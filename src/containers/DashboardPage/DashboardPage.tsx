@@ -1,7 +1,13 @@
+import { Page } from '../../global/ui/components/Page/Page';
+
 type Props = {};
 
 const DashboardPage = (props: Props) => {
-  return <div className="flex-1 bg-yellow-300">dashboardPage</div>;
+  return (
+    <Page>
+      <h1>dashboardPage</h1>
+    </Page>
+  );
 };
 
 export default DashboardPage;

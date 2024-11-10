@@ -16,7 +16,7 @@ export const SidebarNav = () => {
 
   const links: LinkType[] = [
     {
-      to: 'dashboard',
+      to: '/',
       icono: <VscDashboard className="mx-2 size-5" />,
       texto: 'Dashboard',
       isExpandSidebar,
