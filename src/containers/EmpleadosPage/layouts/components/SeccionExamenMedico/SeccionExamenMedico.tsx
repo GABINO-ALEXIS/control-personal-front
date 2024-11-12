@@ -1,19 +1,20 @@
 import { Checkbox } from '@nextui-org/react';
 import { ExamenMedico as ExamenMedicoType } from '../../../../../modules/empleado/types/ExamenMedico';
 import { SolAmount } from '../../../../../modules/ui/components/SolAmount/SolAmount';
+import { format } from '@formkit/tempo';
 
-type ExamenMedicoProps = {
-  data: ExamenMedicoType | null | undefined;
+type SeccionExamenMedicoProps = {
+  data: ExamenMedicoType | null;
 };
 
-export const ExamenMedico = ({ data }: ExamenMedicoProps) => {
+export const SeccionExamenMedico = ({ data }: SeccionExamenMedicoProps) => {
   return (
     <>
       {data ? (
         <ul>
           <li className="my-2 flex justify-between">
             <span>Fecha:</span>
-            <span>{JSON.stringify(data.fecha)}</span>
+            <span>{format(data.fecha, 'long')}</span>
           </li>
           <li className="my-2 flex justify-between">
             <span>Monto Gastado:</span>

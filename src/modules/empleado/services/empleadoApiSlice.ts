@@ -4,10 +4,11 @@ import { Empleado } from '../types/Empleado';
 export const empleadoApiSlice = createApi({
   reducerPath: 'empleado',
   baseQuery: fetchBaseQuery({
+    // baseUrl: 'http://192.168.18.13:3001/api',
     baseUrl: 'http://192.168.18.5:3001/api',
     prepareHeaders: (headers, { getState }) => {
       const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmQ3ZWVkOGRhMzI1YjFjMzYzM2RmMiIsImlhdCI6MTczMTE4NTM5MiwiZXhwIjoxNzMxMTk5NzkyfQ.gde_KV3aRwiKX5ch4VIaNrciaqQhr2ipO-ABD6cBT9g';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmQ3ZWVkOGRhMzI1YjFjMzYzM2RmMiIsImlhdCI6MTczMTM4MjMyNSwiZXhwIjoxNzMxMzk2NzI1fQ.p5d8slxBeB50PcQRFVQc65cEiVaq5vYDR8r5KKH6v-4';
       if (token) headers.set('Authorization', `Bearer ${token}`);
       return headers;
     },
@@ -18,6 +19,9 @@ export const empleadoApiSlice = createApi({
       query: () => 'empleados/?populate=true',
     }),
     getEmpleadoById: builder.query<Empleado, { id: string }>({
+      query: ({ id }) => `empleados/${id}/?populate=true`,
+    }),
+    deleteEmpleado: builder.query<Empleado, { id: string }>({
       query: ({ id }) => `empleados/${id}`,
     }),
   }),
@@ -25,5 +29,8 @@ export const empleadoApiSlice = createApi({
   keepUnusedDataFor: 86400,
 });
 
-export const { useGetEmpleadosQuery, useGetEmpleadoByIdQuery } =
-  empleadoApiSlice;
+export const {
+  useGetEmpleadosQuery,
+  useGetEmpleadoByIdQuery,
+  useDeleteEmpleadoQuery,
+} = empleadoApiSlice;

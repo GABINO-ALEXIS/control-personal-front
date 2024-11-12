@@ -1,5 +1,5 @@
 import { EstadoType } from '../enums/EstadoType';
-import { Cargo } from './Cargo';
+import { Cargo } from '../../cargo/types/Cargo';
 import { Direccion } from './Direccion';
 import { ExamenMedico } from './ExamenMedico';
 

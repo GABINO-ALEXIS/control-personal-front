@@ -16,7 +16,7 @@ export const Profile = ({
   apellidos,
   correo,
   celular,
-}: Partial<Empleado>) => {
+}: Empleado) => {
   const empleadoProps = [
     { label: 'DNI', value: dni },
     { label: 'Nombres', value: nombres },
@@ -31,7 +31,7 @@ export const Profile = ({
 
   return (
     <Section className="basis-1/2 rounded-xl">
-      <div className="relative mt-16 flex flex-col items-center justify-center gap-2 rounded-xl bg-gris pb-3 pt-16 max-md:mt-0 max-md:pt-4">
+      <div className="bg-grisClaro relative mt-16 flex flex-col items-center justify-center gap-2 rounded-xl pb-3 pt-16 max-md:mt-0 max-md:pt-4">
         <Avatar
           isBordered
           color="primary"

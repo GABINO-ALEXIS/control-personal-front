@@ -14,17 +14,19 @@ export default {
       colors: {
         primario: '#014d6d',
         negro: '#000000',
-        blanco: '#F8FAFC',
-        gris: '#e4ecf3',
-        secundario: 'e30038',
+        blanco: '#FFFFFF',
+        grisClaro: '#f4f4f5',
+        grisOscuro: '#e4ecf3',
+        secundario: '#e30038',
         foreground:'#014d6d'
       },
       backgroundColor: {
-        blanco: '#F8FAFC',
+        blanco: '#FFFFFF',
         negro: '#1f2d52',
         primario: '#014d6d',
-        secundario: 'e30038',
-        gris: '#e4ecf3'
+        secundario: '#e30038',
+        grisClaro: '#f4f4f5',
+        grisOscuro: '#e4ecf3'
       },
       fontFamily: {
         primary: ['Poppins', 'Helvetica', 'sans-serif']
