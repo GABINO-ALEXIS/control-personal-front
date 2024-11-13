@@ -18,7 +18,9 @@ export default {
         grisClaro: '#f4f4f5',
         grisOscuro: '#e4ecf3',
         secundario: '#e30038',
-        foreground:'#014d6d'
+        foreground: '#014d6d',//nextui
+        secondary: '#e30038',
+        primary: '#014d6d'//nextui
       },
       backgroundColor: {
         blanco: '#FFFFFF',
@@ -26,7 +28,9 @@ export default {
         primario: '#014d6d',
         secundario: '#e30038',
         grisClaro: '#f4f4f5',
-        grisOscuro: '#e4ecf3'
+        grisOscuro: '#e4ecf3',
+        secondary: '#e30038'
+        //primary: '#014d6d'//nextui
       },
       fontFamily: {
         primary: ['Poppins', 'Helvetica', 'sans-serif']

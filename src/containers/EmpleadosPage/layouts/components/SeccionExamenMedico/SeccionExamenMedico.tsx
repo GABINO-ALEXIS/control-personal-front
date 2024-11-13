@@ -14,7 +14,7 @@ export const SeccionExamenMedico = ({ data }: SeccionExamenMedicoProps) => {
         <ul>
           <li className="my-2 flex justify-between">
             <span>Fecha:</span>
-            <span>{format(data.fecha, 'long')}</span>
+            <span>{format(new Date(), 'full')}</span>
           </li>
           <li className="my-2 flex justify-between">
             <span>Monto Gastado:</span>

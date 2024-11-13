@@ -24,7 +24,11 @@ const EmpleadoDetalleLayout = () => {
   return (
     <>
       {isLoading ? (
-        <Spinner label="Cargando..." className="h-full w-full bg-primario" />
+        <Spinner
+          className="h-full w-full bg-primario"
+          size="lg"
+          color="default"
+        />
       ) : isError ? (
         <Error
           error={error}
