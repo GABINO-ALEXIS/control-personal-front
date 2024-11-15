@@ -13,4 +13,4 @@ export const IDENTIFIERS_FIELDS: any = {
     Distrito: 'distrito',
     Domicilio: 'domicilio',
   },
-};
+} as const;

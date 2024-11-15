@@ -2,6 +2,7 @@ import { EstadoType } from '../enums/EstadoType';
 import { Cargo } from '../../cargo/types/Cargo';
 import { Direccion } from './Direccion';
 import { ExamenMedico } from './ExamenMedico';
+import { Sexo } from '../enums/Sexo';
 
 export type Empleado = {
   id: string;
@@ -9,7 +10,7 @@ export type Empleado = {
   nombres: string;
   apellidos: string;
   edad: number;
-  sexo: 'Masculino' | 'Femenino';
+  sexo: Sexo;
   fechaNacimiento: Date;
   direccion: Direccion;
   correo: string;

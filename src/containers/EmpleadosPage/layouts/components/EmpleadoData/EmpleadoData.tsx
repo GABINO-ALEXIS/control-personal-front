@@ -1,16 +1,17 @@
 import {
   Button,
-  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@nextui-org/react';
-import { UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { FormFields } from '../../../types/FormFields';
-import { IDENTIFIERS_FIELDS } from '../../../const/identifiersFields';
 import { removeAccents } from '../../../../../global/utils/removeAccents';
+import { RenderField } from './RenderField/RenderField';
+import { FIELDS_INPUTS_TYPES } from '../../../const/fields-inputs-types';
 
 type EmpleadoDataProps = {
+  errors: FieldErrors<FormFields>;
   hC: () => void;
   label: string;
   value: string | number | object;
@@ -19,6 +20,7 @@ type EmpleadoDataProps = {
 
 export const EmpleadoData = ({
   hC,
+  errors,
   label,
   value,
   register,
@@ -55,25 +57,37 @@ export const EmpleadoData = ({
             <div className="mt-2 flex w-full flex-col gap-2">
               {isObject ? (
                 Object.entries(value).map(([subLabel, subValue], i) => (
-                  <Input
-                    {...register(
-                      `${removeAccents(label.toLowerCase())}.${IDENTIFIERS_FIELDS[removeAccents(label)][subLabel]}` as any,
-                    )}
-                    key={i}
-                    defaultValue={subValue}
-                    label={subLabel}
-                    size="sm"
-                    variant="bordered"
-                  />
+                  <span key={i}>
+                    {RenderField({
+                      input: {
+                        type: (
+                          FIELDS_INPUTS_TYPES[removeAccents(label)] as any
+                        )[subLabel].type,
+                        options: (
+                          FIELDS_INPUTS_TYPES[removeAccents(label)] as any
+                        )[subLabel].options,
+                      },
+                      register,
+                      errors,
+                      label,
+                      subLabel,
+                      subValue,
+                    })}
+                  </span>
                 ))
               ) : (
-                <Input
-                  {...register(IDENTIFIERS_FIELDS[label])}
-                  defaultValue={value.toString()}
-                  label="Nuevo Valor"
-                  size="sm"
-                  variant="bordered"
-                />
+                <>
+                  {RenderField({
+                    input: {
+                      type: FIELDS_INPUTS_TYPES[label].type as any,
+                      options: FIELDS_INPUTS_TYPES[label].options as any,
+                    },
+                    register,
+                    errors,
+                    label,
+                    value,
+                  })}
+                </>
               )}
               <Button className="bg-primario text-blanco" onPress={hC}>
                 Guardar

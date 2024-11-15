@@ -2,13 +2,11 @@ import { Avatar, AvatarIcon } from '@nextui-org/react';
 import { SimpleCard } from '../../../../../modules/ui/components/SimpleCard/SimpleCard';
 import { BiMessageRounded } from 'react-icons/bi';
 import { MdOutlineEmail } from 'react-icons/md';
-import { EmpleadoData } from '../EmpleadoData/EmpleadoData';
 import { Section } from '../../../../../modules/ui/components/Section/Section';
 import { Empleado } from '../../../../../modules/empleado/types/Empleado';
 import { format } from '@formkit/tempo';
-import { useRef } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormFields } from '../../../types/FormFields';
+import { Form } from './Form/Form';
+import { EmpleadoProps } from '../../../types/EmpleadoProps';
 
 export const Profile = ({
   dni,
@@ -21,15 +19,15 @@ export const Profile = ({
   correo,
   celular,
 }: Empleado) => {
-  const fR = useRef<HTMLFormElement>(null);
-  const hC = () => fR.current?.requestSubmit();
-
-  const empleadoProps = [
+  const empleadoProps: EmpleadoProps[] = [
     { label: 'DNI', value: dni },
     { label: 'Nombres', value: nombres },
     { label: 'Apellidos', value: apellidos },
     { label: 'Edad', value: edad },
-    { label: 'Sexo', value: sexo },
+    {
+      label: 'Sexo',
+      value: sexo,
+    },
     {
       label: 'Fecha de Nacimiento',
       value: format(fechaNacimiento, 'DD/MM/YYYY'),
@@ -46,33 +44,6 @@ export const Profile = ({
     { label: 'Correo', value: correo },
     { label: 'Celular', value: celular },
   ];
-
-  const { register, handleSubmit, reset } = useForm<FormFields>();
-
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    const [key, value] = Object.entries(data).at(-1) as [
-      string,
-      string | Record<string, string>,
-    ];
-    const newData = { [key]: value };
-
-    reset({});
-    console.log(newData);
-
-    const numeros = [
-      dni,
-      edad,
-      sexo,
-      fechaNacimiento,
-      direccion,
-      nombres,
-      apellidos,
-      correo,
-      celular,
-    ];
-    const resultado = numeros.every((numero) => numero.toString() !== value);
-    console.log(!resultado);
-  };
 
   return (
     <Section className="basis-1/2 rounded-xl">
@@ -102,17 +73,7 @@ export const Profile = ({
       </div>
       <div className="mt-2">
         <span className="font-semibold">Información Personal</span>
-        <form ref={fR} onSubmit={handleSubmit(onSubmit)}>
-          {empleadoProps.map((item, index) => (
-            <EmpleadoData
-              hC={hC}
-              key={index}
-              label={item.label}
-              value={item.value}
-              register={register}
-            />
-          ))}
-        </form>
+        <Form empleadoProps={empleadoProps} />
       </div>
     </Section>
   );

@@ -8,7 +8,7 @@ export const empleadoApiSlice = createApi({
     baseUrl: 'http://192.168.18.5:3001/api',
     prepareHeaders: (headers, { getState }) => {
       const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmQ3ZWVkOGRhMzI1YjFjMzYzM2RmMiIsImlhdCI6MTczMTQxOTg0MSwiZXhwIjoxNzMxNTA2MjQxfQ.vZB3FLg3A7UJSy9k7K8EbpCbGvdgwPTeypMDpvebi6U';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MmQ3ZWVkOGRhMzI1YjFjMzYzM2RmMiIsImlhdCI6MTczMTYzODAzMSwiZXhwIjoxNzMxNzI0NDMxfQ.pqUHyqaqMeLyCoDgTRr9qpKhVYk1lf5p2_xEA_C5fcI';
       if (token) headers.set('Authorization', `Bearer ${token}`);
       return headers;
     },

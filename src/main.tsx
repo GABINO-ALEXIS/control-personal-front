@@ -9,7 +9,7 @@ import { NextUIProvider } from '@nextui-org/react';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <NextUIProvider>
+      <NextUIProvider locale="es-ES">
         <App />
       </NextUIProvider>
     </Provider>
