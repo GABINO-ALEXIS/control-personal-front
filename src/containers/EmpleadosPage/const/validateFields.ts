@@ -3,11 +3,19 @@ import { Sexo } from '../../../modules/empleado/enums/Sexo';
 const ERROR_EQUAL_VALUE =
   'El valor del campo no puede ser el mismo, ingrese un nuevo valor';
 
+let departamentoSubLabelValue: string;
+let departamentoValue: string;
+let provinciaSubLabelValue: string;
+let provinciaValue: string;
+let distritoSubLabelValue: string;
+let distritoValue: string;
+
 export const VALIDATE_FIELDS: any = {
   DNI: (labelValue: number) => ({
     required: 'El DNI es obligatorio',
     validate: (value: string) => {
-      if (labelValue.toString() === value) return ERROR_EQUAL_VALUE;
+      if ((labelValue ? labelValue.toString() : labelValue) === value)
+        return ERROR_EQUAL_VALUE;
     },
     pattern: {
       value: /^[0-9]{8}$/,
@@ -21,11 +29,11 @@ export const VALIDATE_FIELDS: any = {
     },
     minLength: {
       value: 3,
-      message: 'El nombre debe tener al menos 3 caracteres',
+      message: 'Los nombres deben tener al menos 3 caracteres',
     },
     maxLength: {
       value: 20,
-      message: 'El nombre no debe exceder los 20 caracteres',
+      message: 'Los nombres no deben exceder los 20 caracteres',
     },
   }),
   Apellidos: (labelValue: string) => ({
@@ -35,17 +43,20 @@ export const VALIDATE_FIELDS: any = {
     },
     minLength: {
       value: 3,
-      message: 'El apellido debe tener al menos 3 caracteres',
+      message: 'Los apellidos deben tener al menos 3 caracteres',
     },
     maxLength: {
       value: 20,
-      message: 'El apellido no debe exceder los 20 caracteres',
+      message: 'Los apellidos no deben exceder los 20 caracteres',
     },
   }),
   Edad: (labelValue: number) => ({
     required: 'La edad es obligatoria',
     validate: (value: string) => {
-      if (labelValue.toString() === value) return ERROR_EQUAL_VALUE;
+      if ((labelValue ? labelValue.toString() : labelValue) === value)
+        return ERROR_EQUAL_VALUE;
+      if (!Number.isInteger(Number(value)))
+        return 'Solo se permiten números enteros';
     },
     min: {
       value: 18,
@@ -66,7 +77,10 @@ export const VALIDATE_FIELDS: any = {
     required: 'La fecha de nacimiento es obligatoria',
     validate: (value: string) => {
       if (labelValue === value) return ERROR_EQUAL_VALUE;
-      return true;
+      if (value === 'yearInvalid')
+        return 'Fecha Inválida, seleccione correctamente el año';
+      if (value === 'yearInvalidHigher')
+        return 'Fecha Inválida, el año no puede ser mayor a la actual';
     },
   }),
   Correo: (labelValue: string) => ({
@@ -82,7 +96,8 @@ export const VALIDATE_FIELDS: any = {
   Celular: (labelValue: number) => ({
     required: 'El número de celular es obligatorio',
     validate: (value: string) => {
-      if (labelValue.toString() === value) return ERROR_EQUAL_VALUE;
+      if ((labelValue ? labelValue.toString() : labelValue) === value)
+        return ERROR_EQUAL_VALUE;
     },
     pattern: {
       value: /^9\d{8}$/,
@@ -90,19 +105,37 @@ export const VALIDATE_FIELDS: any = {
     },
   }),
   Direccion: {
-    Departamento: () => ({
+    Departamento: (subLabelValue: string) => ({
       required: 'El departamento es obligatorio',
+      validate: (value: string) => {
+        departamentoSubLabelValue = subLabelValue;
+        departamentoValue = value;
+      },
     }),
-    Provincia: () => ({
+    Provincia: (subLabelValue: string) => ({
       required: 'La provincia es obligatoria',
+      validate: (value: string) => {
+        provinciaSubLabelValue = subLabelValue;
+        provinciaValue = value;
+      },
     }),
-    Distrito: () => ({
+    Distrito: (subLabelValue: string) => ({
       required: 'El distrito es obligatorio',
+      validate: (value: string) => {
+        distritoSubLabelValue = subLabelValue;
+        distritoValue = value;
+      },
     }),
     Domicilio: (subLabelValue: string) => ({
       required: 'El domicilio es obligatorio',
       validate: (value: string) => {
-        if (subLabelValue === value) return ERROR_EQUAL_VALUE;
+        if (
+          subLabelValue === value &&
+          departamentoSubLabelValue === departamentoValue &&
+          provinciaSubLabelValue === provinciaValue &&
+          distritoSubLabelValue === distritoValue
+        )
+          return 'La dirección sigue siendo la misma';
       },
       minLength: {
         value: 8,

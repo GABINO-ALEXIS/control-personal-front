@@ -4,31 +4,58 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@nextui-org/react';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormReset,
+  UseFormSetValue,
+} from 'react-hook-form';
 import { FormFields } from '../../../types/FormFields';
 import { removeAccents } from '../../../../../global/utils/removeAccents';
 import { RenderField } from './RenderField/RenderField';
 import { FIELDS_INPUTS_TYPES } from '../../../const/fields-inputs-types';
+import { useState } from 'react';
 
 type EmpleadoDataProps = {
+  isSuccess: boolean;
+  isError: boolean;
+  resetMutation: () => void;
+  isUpdating: boolean;
   errors: FieldErrors<FormFields>;
   hC: () => void;
   label: string;
   value: string | number | object;
   register: UseFormRegister<FormFields>;
+  setValue: UseFormSetValue<FormFields>;
+  reset: UseFormReset<FormFields>;
 };
 
 export const EmpleadoData = ({
+  isSuccess,
+  isError,
+  resetMutation,
+  isUpdating,
   hC,
   errors,
   label,
   value,
   register,
+  setValue,
+  reset,
 }: EmpleadoDataProps) => {
+  const [isOpen, setIsOpen] = useState(false);
   const isObject = typeof value === 'object' && value !== null;
 
   return (
-    <Popover backdrop="opaque">
+    <Popover
+      backdrop="opaque"
+      isOpen={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        if (!open) resetMutation();
+        reset({});
+      }}
+    >
       <PopoverTrigger>
         <div
           className={`my-2 justify-between ${isObject ? 'block' : 'flex'} relative cursor-pointer before:hover:absolute before:hover:-inset-2 before:hover:top-0 before:hover:block before:hover:h-full before:hover:bg-grisClaro`}
@@ -68,6 +95,7 @@ export const EmpleadoData = ({
                         )[subLabel].options,
                       },
                       register,
+                      setValue,
                       errors,
                       label,
                       subLabel,
@@ -83,14 +111,24 @@ export const EmpleadoData = ({
                       options: FIELDS_INPUTS_TYPES[label].options as any,
                     },
                     register,
+                    setValue,
                     errors,
                     label,
                     value,
                   })}
                 </>
               )}
-              <Button className="bg-primario text-blanco" onPress={hC}>
-                Guardar
+              <Button
+                className={`bg-primario text-blanco ${isSuccess && 'opacity-100'}`}
+                isLoading={isUpdating}
+                isDisabled={isSuccess}
+                onPress={hC}
+              >
+                {isError
+                  ? 'Ocurrio un error'
+                  : isSuccess
+                    ? 'Actualizado'
+                    : 'Guardar'}
               </Button>
             </div>
           </div>

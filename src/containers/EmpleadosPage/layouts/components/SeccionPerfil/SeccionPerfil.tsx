@@ -11,7 +11,7 @@ type SeccionPerfilProps = {
 };
 
 export const SeccionPerfil = ({ empleado }: SeccionPerfilProps) => {
-  const { nombres, apellidos, cargo, examenMedico, asegurado } = empleado;
+  const { id, nombres, apellidos, cargo, examenMedico, asegurado } = empleado;
 
   return (
     <section className="flex h-full w-full gap-5 bg-primario max-md:block">
@@ -44,7 +44,11 @@ export const SeccionPerfil = ({ empleado }: SeccionPerfilProps) => {
               title="Configuración"
               className="px-0 pb-0"
             >
-              <SeccionConfiguracion nombres={nombres} apellidos={apellidos} />
+              <SeccionConfiguracion
+                empleadoId={id}
+                nombres={nombres}
+                apellidos={apellidos}
+              />
             </Tab>
           </Tabs>
         </Section>

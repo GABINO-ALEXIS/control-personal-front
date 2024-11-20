@@ -1,4 +1,5 @@
 import { FieldsInputsTypes } from '../types/FieldsInputsTypes';
+import { SEXO_OPTIONS } from './sexo-options';
 
 export const FIELDS_INPUTS_TYPES: FieldsInputsTypes = {
   DNI: {
@@ -27,10 +28,7 @@ export const FIELDS_INPUTS_TYPES: FieldsInputsTypes = {
       typeMain: 'select',
     },
     options: {
-      itemsArray: [
-        { key: 'masculino', label: 'Masculino' },
-        { key: 'memenino', label: 'Femenino' },
-      ],
+      itemsArray: SEXO_OPTIONS,
     },
   },
   'Fecha de Nacimiento': {

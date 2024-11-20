@@ -9,6 +9,7 @@ import { Form } from './Form/Form';
 import { EmpleadoProps } from '../../../types/EmpleadoProps';
 
 export const Profile = ({
+  id,
   dni,
   edad,
   sexo,
@@ -73,7 +74,7 @@ export const Profile = ({
       </div>
       <div className="mt-2">
         <span className="font-semibold">Información Personal</span>
-        <Form empleadoProps={empleadoProps} />
+        <Form empleadoProps={empleadoProps} empleadoId={id} />
       </div>
     </Section>
   );

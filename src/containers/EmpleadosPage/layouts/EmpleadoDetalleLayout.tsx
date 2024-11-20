@@ -18,6 +18,7 @@ const EmpleadoDetalleLayout = () => {
   } = useGetEmpleadoByIdQuery({
     id: empleadoId,
   });
+
   const nombres = empleado?.nombres;
   const apellidos = empleado?.apellidos;
 

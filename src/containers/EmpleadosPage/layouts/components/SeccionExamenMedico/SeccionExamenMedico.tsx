@@ -13,7 +13,7 @@ export const SeccionExamenMedico = ({ data }: SeccionExamenMedicoProps) => {
       {data ? (
         <ul>
           <li className="my-2 flex justify-between">
-            <span>Fecha:</span>
+            <span className="max-md:mr-10">Fecha:</span>
             <span>{format(new Date(), 'full')}</span>
           </li>
           <li className="my-2 flex justify-between">

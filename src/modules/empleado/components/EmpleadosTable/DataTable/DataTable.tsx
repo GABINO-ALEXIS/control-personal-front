@@ -6,7 +6,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Button,
   DropdownTrigger,
   Dropdown,
@@ -20,20 +19,17 @@ import {
   SortDescriptor,
   Spinner,
 } from '@nextui-org/react';
-import { PlusIcon } from '../../../../ui/components/PlusIcon/PlusIcon';
 import { VerticalDotsIcon } from '../../../../ui/components/VerticalDotsIcon/VerticalDotsIcon';
-import { ChevronDownIcon } from '../../../../ui/components/ChevronDownIcon/ChevronDownIcon';
-import { capitalize } from '../../../../../global/utils/capitalize';
 import { Empleado } from '../../../types/Empleado';
 import { Column } from '../../../types/Column';
 import { InitialVisibleColumns } from '../../../types/InitialColumns';
 import { STATUSOPTIONS } from '../../../const/statusOptions';
-import { SearchIcon } from '../../../../ui/components/SearchIcon/SearchIcon';
 import { useNavigate } from 'react-router-dom';
 import {
   IoIosCloseCircleOutline,
   IoMdCheckmarkCircleOutline,
 } from 'react-icons/io';
+import { TopContent } from './TopContent/TopContent';
 
 const statusColorMap: Record<string, ChipProps['color']> = {
   activo: 'success',
@@ -221,111 +217,32 @@ export const DataTable = ({
     }
   }, []);
 
-  const topContent = React.useMemo(() => {
-    return (
-      <div className="flex flex-col gap-4">
-        <div className="flex items-end justify-between gap-3">
-          <Input
-            isClearable
-            classNames={{
-              base: 'w-full sm:max-w-[44%]',
-              inputWrapper: 'border-1',
-            }}
-            placeholder="Buscar empleado..."
-            size="sm"
-            startContent={<SearchIcon className="text-default-300" />}
-            value={filterValue}
-            variant="bordered"
-            onClear={() => setFilterValue('')}
-            onValueChange={onSearchChange}
-          />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Estado
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columnas
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<PlusIcon />}
-              size="sm"
-            >
-              Agregar Empleado
-            </Button>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-small text-default-400">
-            Total {users.length} empleados
-          </span>
-          <label className="flex items-center text-small text-default-400">
-            Filas por pagina:
-            <select
-              className="bg-transparent text-small text-default-400 outline-none"
-              onChange={onRowsPerPageChange}
-            >
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    );
-  }, [
-    filterValue,
-    statusFilter,
-    visibleColumns,
-    onSearchChange,
-    onRowsPerPageChange,
-    users.length,
-    hasSearchFilter,
-  ]);
+  const topContent = React.useMemo(
+    () => (
+      <TopContent
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+        onSearchChange={onSearchChange}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        statusOptions={statusOptions}
+        visibleColumns={visibleColumns}
+        setVisibleColumns={setVisibleColumns}
+        columns={columns}
+        usersCount={users.length}
+        onRowsPerPageChange={onRowsPerPageChange}
+      />
+    ),
+    [
+      filterValue,
+      statusFilter,
+      visibleColumns,
+      onSearchChange,
+      onRowsPerPageChange,
+      users.length,
+      hasSearchFilter,
+    ],
+  );
 
   const bottomContent = React.useMemo(() => {
     return (
