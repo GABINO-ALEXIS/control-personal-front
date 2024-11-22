@@ -12,9 +12,11 @@ import { SearchIcon } from '../../../../../ui/components/SearchIcon/SearchIcon';
 import { ChevronDownIcon } from '../../../../../ui/components/ChevronDownIcon/ChevronDownIcon';
 import { PlusIcon } from '../../../../../ui/components/PlusIcon/PlusIcon';
 import { capitalize } from '../../../../../../global/utils/capitalize';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, lazy, SetStateAction, Suspense } from 'react';
 import { Empleado } from '../../../../types/Empleado';
-import { CrearEmpleadoModal } from '../../CrearEmpleadoModal/CrearEmpleadoModal';
+const CrearEmpleadoModal = lazy(
+  () => import('../../CrearEmpleadoModal/CrearEmpleadoModal'),
+);
 
 type TopContentProps = {
   filterValue: string;
@@ -128,7 +130,11 @@ export const TopContent = ({
           >
             Agregar Empleado
           </Button>
-          <CrearEmpleadoModal isOpen={isOpen} onOpenChange={onOpenChange} />
+          {isOpen && (
+            <Suspense>
+              <CrearEmpleadoModal isOpen={isOpen} onOpenChange={onOpenChange} />
+            </Suspense>
+          )}
         </div>
       </div>
       <div className="flex items-center justify-between">

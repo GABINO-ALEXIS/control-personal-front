@@ -13,23 +13,31 @@ import {
 import { DivInput } from '../../../../ui/components/DivInput/DivInput';
 import { InputCustom } from '../../../../ui/components/InputCustom/InputCustom';
 import { SEXO_OPTIONS } from '../../../../../containers/EmpleadosPage/const/sexo-options';
-import { CARGO_OPTION } from '../../../../../containers/EmpleadosPage/const/cargo-option';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { FormFieldsCreateEmpleado } from '../../../types/FormFieldsCreateEmpleado';
 import { VALIDATE_FIELDS } from '../../../../../containers/EmpleadosPage/const/validateFields';
 import { useRef } from 'react';
+import { CargoSelect } from '../../../../cargo/components/CargoSelect/CargoSelect';
+import {
+  empleadoApiSlice,
+  useCreateEmpleadoMutation,
+} from '../../../services/empleadoApiSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from '../../../../../global/store/hooks';
 
 type CrearEmpleadoModalProps = {
   isOpen: boolean;
   onOpenChange: () => void;
 };
 
-export const CrearEmpleadoModal = ({
+const CrearEmpleadoModal = ({
   isOpen,
   onOpenChange,
 }: CrearEmpleadoModalProps) => {
   const fR = useRef<HTMLFormElement>(null);
   const hC = () => fR.current?.requestSubmit();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -43,10 +51,21 @@ export const CrearEmpleadoModal = ({
     },
   });
 
-  const onSubmit: SubmitHandler<FormFieldsCreateEmpleado> = (
-    data: FormFieldsCreateEmpleado,
+  const [createEmpleado, { isLoading: isCreating, isError }] =
+    useCreateEmpleadoMutation();
+
+  const onSubmit: SubmitHandler<FormFieldsCreateEmpleado> = async (
+    formData: FormFieldsCreateEmpleado,
   ) => {
-    console.log(data);
+    try {
+      const empleado = await createEmpleado(formData).unwrap();
+      dispatch(
+        empleadoApiSlice.util.updateQueryData('getEmpleados', {}, (draft) => {
+          draft.push(empleado);
+        }),
+      );
+      navigate(`/empleados/${empleado.id}`);
+    } catch (e) {}
   };
 
   return (
@@ -100,10 +119,18 @@ export const CrearEmpleadoModal = ({
                         variant="bordered"
                         size="sm"
                         onChange={(value) => {
-                          const { year, month, day } = value;
-                          field.onChange(
-                            new Date(year, month > 0 ? month - 1 : month, day),
-                          );
+                          if (value) {
+                            const { year, month, day } = value;
+                            field.onChange(
+                              new Date(
+                                year,
+                                month > 0 ? month - 1 : month,
+                                day,
+                              ),
+                            );
+                          } else {
+                            field.onChange(undefined);
+                          }
                         }}
                       />
                     )}
@@ -175,33 +202,7 @@ export const CrearEmpleadoModal = ({
                 </DivInput>
                 <h2>Datos Laborales</h2>
                 <DivInput>
-                  <Controller
-                    name="cargo"
-                    control={control}
-                    rules={{ required: 'El Cargo es obligatorio' }}
-                    render={({ field }) => (
-                      <Select
-                        isInvalid={Boolean(errors['cargo'])}
-                        errorMessage={
-                          errors['cargo'] ? errors['cargo'].message : undefined
-                        }
-                        onSelectionChange={(keys) => {
-                          const labelSelected = CARGO_OPTION.filter(
-                            (e) => e.key === Array.from(keys)[0],
-                          )[0]?.label;
-                          field.onChange(labelSelected);
-                        }}
-                        label="Cargo"
-                        variant="bordered"
-                        size="sm"
-                        isRequired
-                      >
-                        {CARGO_OPTION.map((c) => (
-                          <SelectItem key={c.key}>{c.label}</SelectItem>
-                        ))}
-                      </Select>
-                    )}
-                  />
+                  <CargoSelect control={control} errors={errors} />
                   <div className="flex w-full">
                     <Checkbox
                       onValueChange={(value) => setValue('asegurado', value)}
@@ -232,8 +233,8 @@ export const CrearEmpleadoModal = ({
                 <Button color="default" variant="flat" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="primary" onPress={hC}>
-                  Crear Empleado
+                <Button color="primary" isLoading={isCreating} onPress={hC}>
+                  {isError ? 'Ocurrio un error' : 'Crear Empleado'}
                 </Button>
               </ModalFooter>
             </>
@@ -243,3 +244,5 @@ export const CrearEmpleadoModal = ({
     </form>
   );
 };
+
+export default CrearEmpleadoModal;

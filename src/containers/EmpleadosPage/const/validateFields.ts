@@ -77,6 +77,7 @@ export const VALIDATE_FIELDS: any = {
     required: 'La fecha de nacimiento es obligatoria',
     validate: (value: string) => {
       if (labelValue === value) return ERROR_EQUAL_VALUE;
+      if (!value) return 'Fecha Inválida, seleccione correctamente el año';
       if (value === 'yearInvalid')
         return 'Fecha Inválida, seleccione correctamente el año';
       if (value === 'yearInvalidHigher')
