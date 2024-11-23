@@ -1,7 +1,12 @@
-console.log('asistencia pagee');
+import { Page } from '../../global/ui/components/Page/Page';
+import { AsistenciaTable } from '../../modules/asistencia/components/AsistenciaTable/AsistenciaTable';
 
 const AsistenciaPage = () => {
-  return <div className="flex-1 bg-purple-500">AsistenciaPage</div>;
+  return (
+    <Page>
+      <AsistenciaTable />
+    </Page>
+  );
 };
 
 export default AsistenciaPage;

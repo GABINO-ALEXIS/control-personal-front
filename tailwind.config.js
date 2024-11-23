@@ -19,7 +19,6 @@ export default {
         grisOscuro: '#e4ecf3',
         secundario: '#e30038',
         foreground: '#014d6d',//nextui
-        secondary: '#e30038',
         primary: '#014d6d'//nextui
       },
       backgroundColor: {
@@ -29,7 +28,6 @@ export default {
         secundario: '#e30038',
         grisClaro: '#f4f4f5',
         grisOscuro: '#e4ecf3',
-        secondary: '#e30038'
         //primary: '#014d6d'//nextui
       },
       fontFamily: {
