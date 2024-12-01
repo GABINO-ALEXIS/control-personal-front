@@ -60,7 +60,7 @@ const EmpleadoDetalleLayout = () => {
             <InputSearch />
           </div>
           <div className="scrollbar-custom flex w-full flex-col overflow-auto rounded-xl bg-primario pr-5 max-md:pr-1">
-            <Tabs aria-label="Options">
+            <Tabs aria-label="Options" className="ml-1">
               <Tab key="perfil" title=" Perfil">
                 <SeccionPerfil empleado={empleado!} />
               </Tab>

@@ -1,1 +1,2 @@
 src/modules/empleado/services/empleadoApiSlice.ts
+src/modules/asistencia/services/asistenciaApiSlice.ts

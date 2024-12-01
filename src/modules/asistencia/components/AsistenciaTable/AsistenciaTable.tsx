@@ -10,7 +10,7 @@ import {
   TableRow,
   User,
 } from '@nextui-org/react';
-import { EstadoAsistencia } from './EstadoAsistencia/EstadoAsistencia';
+import { EstadoAsistenciaSelect } from './EstadoAsistenciaSelect/EstadoAsistenciaSelect';
 import { COLUMNS } from '../../const/columns';
 import { useGetEmpleadosQuery } from '../../../empleado/services/empleadoApiSlice';
 import { Error } from '../../../ui/components/Error/Error';
@@ -47,7 +47,9 @@ export const AsistenciaTable = () => {
           </div>
         );
       case 'estado':
-        return <EstadoAsistencia empleadoId={empleado.id} />;
+        return <EstadoAsistenciaSelect empleadoId={empleado.id} />;
+      case 'horaEntrada':
+        return <p>--</p>;
       default:
         return cellValue;
     }
@@ -73,7 +75,7 @@ export const AsistenciaTable = () => {
           emptyContent={'No hay empleados'}
         >
           {(item) => (
-            <TableRow key={item.id}>
+            <TableRow key={item.id} className="hover:bg-default-100">
               {(columnKey) => (
                 <TableCell>
                   {renderCell(item, columnKey) as ReactNode}

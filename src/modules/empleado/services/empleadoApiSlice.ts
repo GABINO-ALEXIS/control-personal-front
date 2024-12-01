@@ -2,12 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Empleado } from '../types/Empleado';
 import { CreateEmpleadoMutation } from '../types/CreateEmpleadoMutation';
 import { JWT } from '../../../global/utils/jwt';
+import { CONNECTION } from '../../../global/utils/connection';
 
 export const empleadoApiSlice = createApi({
   reducerPath: 'empleado',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'http://192.168.18.13:3001/api',
-    baseUrl: 'http://192.168.18.5:3001/api',
+  
+    baseUrl: CONNECTION,
     prepareHeaders: (headers, { getState }) => {
       const token = JWT
       if (token) headers.set('Authorization', `Bearer ${token}`);
